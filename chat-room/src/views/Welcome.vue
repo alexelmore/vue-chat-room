@@ -7,10 +7,12 @@
 
 <script>
 import SignupForm from "../components/SignupForm.vue";
+import LoginForm from "../components/LoginForm.vue";
 export default {
 	name: "Welcome",
 	components: {
 		SignupForm,
+		LoginForm,
 	},
 };
 </script>
