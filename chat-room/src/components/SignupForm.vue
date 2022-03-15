@@ -8,7 +8,7 @@
 
     <label> Password:</label>
     <input type="password" required placeholder="Password" v-model="password" />
-
+    <div class="error">{{ error }}</div>
     <button>Sign Up</button>
   </form>
 </template>
@@ -16,28 +16,24 @@
 <script>
 import { ref } from "vue";
 import useSignup from "../composables/useSignup";
-import { useRouter } from "vue-router";
+
 export default {
   name: "SignupForm",
   setup() {
     // Pull out error and signup function from useSignup
     const { error, signup } = useSignup();
 
-    // Init router for redirecting user to the home page after a successful signup
-    const router = useRouter();
-
     // Refs binded to form input fields
     const displayName = ref("");
     const email = ref("");
     const password = ref("");
 
-    // Function to handle form submissions
+    // Asyn function to handle form submissions and to signup the user
     const handleSubmit = async () => {
+      // Await the signup function
       await signup(email.value, password.value, displayName.value);
-      // Redirect user to home page after successful signup
-      router.push("/");
     };
-    return { displayName, email, password, handleSubmit };
+    return { displayName, email, password, handleSubmit, error };
   },
 };
 </script>
