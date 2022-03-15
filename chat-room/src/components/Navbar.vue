@@ -1,6 +1,6 @@
 <template>
-  <nav>
-    <div v-if="user">
+  <nav v-if="user">
+    <div>
       <p>
         Hey there <strong>{{ user.displayName }}</strong
         >!
