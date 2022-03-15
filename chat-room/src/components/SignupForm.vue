@@ -19,7 +19,7 @@ import useSignup from "../composables/useSignup";
 
 export default {
   name: "SignupForm",
-  setup() {
+  setup(props, context) {
     // Pull out error and signup function from useSignup
     const { error, signup } = useSignup();
 
@@ -32,6 +32,10 @@ export default {
     const handleSubmit = async () => {
       // Await the signup function
       await signup(email.value, password.value, displayName.value);
+      // Check if there is not a value for error, if no error, emit a custom event, notifiying the parent component that a user has signed up
+      if (!error.value) {
+        context.emit("signup");
+      }
     };
     return { displayName, email, password, handleSubmit, error };
   },

@@ -17,7 +17,7 @@ import useLogin from "../composables/useLogin";
 
 export default {
   name: "LoginForm",
-  setup() {
+  setup(props, context) {
     // Pull out error and login function from useLogin composable
     const { error, login } = useLogin();
     // Refs binded to form input fields
@@ -32,6 +32,11 @@ export default {
       });
       // Await the login function
       await login(email.value, password.value);
+
+      // Check if there is not a value for error, if no error, emit a custom event, notifiying the parent component that a user has logged in
+      if (!error.value) {
+        context.emit("login");
+      }
     };
     return { email, password, handleSubmit, error };
   },
