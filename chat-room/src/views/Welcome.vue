@@ -34,6 +34,7 @@ export default {
     // Init router for redirecting user to the chatroom page after a successful login or signup
     const router = useRouter();
 
+    // Function that redirects a user to the chatroom page after they login or signup
     const enterChat = () => {
       router.push({ name: "Chatroom" });
     };
