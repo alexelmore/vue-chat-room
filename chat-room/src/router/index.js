@@ -16,11 +16,25 @@ const requireAuth = (to, from, next) => {
   next();
 };
 
+// Route guard for checking if a user is logged in
+const isAuthorized = (to, from, next) => {
+  // Init user to the current user returned back from the Firebase object, projectAuth, currentUser method.
+  let user = projectAuth.currentUser;
+
+  // If the user is not null, redirect them to the chatroom page
+  if (user) {
+    next({ name: "Chatroom" });
+  }
+  // If the user is not null, let them conintue to the welcome page
+  next();
+};
+
 const routes = [
   {
     path: "/",
     name: "Welcome",
     component: Welcome,
+    beforeEnter: isAuthorized,
   },
   {
     path: "/chatroom",
