@@ -18,7 +18,7 @@ import { computed, ref, onUpdated } from "vue";
 export default {
   name: "ChatWindow",
   setup() {
-    // Set ref to default of null
+    // Set ref for messages div to a default of null
     const messageContainer = ref(null);
     // Pull out documents and error properties from our getCollection composable
     const { documents, error } = getCollection("messages");
@@ -31,7 +31,7 @@ export default {
         });
       }
     });
-    // onUpdate lifecyle hook to auto scroll to the bottom of the message div, to the most recent message added
+    // onUpdate lifecycle hook to auto scroll to the bottom of the message div, to the most recent added message
     onUpdated(() => {
       messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
     });
