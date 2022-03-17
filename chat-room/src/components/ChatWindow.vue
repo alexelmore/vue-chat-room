@@ -1,7 +1,7 @@
 <template>
   <div class="chat-window">
     <div v-if="error" class="error">{{ error }}</div>
-    <div v-if="documents" class="messages">
+    <div v-if="documents" class="messages" ref="messageContainer">
       <div v-for="doc in formattedDocuments" :key="doc.is" class="single">
         <span class="created-at">{{ doc.createdAt }}</span>
         <span class="name">{{ doc.name }}</span>
@@ -13,11 +13,13 @@
 
 <script>
 import getCollection from "../composables/getCollection";
-import { formatDistanceTo, formatDistanceToNow } from "date-fns";
-import { computed } from "vue";
+import { formatDistanceToNow } from "date-fns";
+import { computed, ref, onUpdated } from "vue";
 export default {
   name: "ChatWindow",
   setup() {
+    // Set ref to default of null
+    const messageContainer = ref(null);
     // Pull out documents and error properties from our getCollection composable
     const { documents, error } = getCollection("messages");
     // Computed property that returns our docs with a neatly formatted created at data
@@ -29,10 +31,16 @@ export default {
         });
       }
     });
+    // onUpdate lifecyle hook to auto scroll to the bottom of the message div, to the most recent message added
+    onUpdated(() => {
+      messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
+    });
+
     return {
       documents,
       error,
       formattedDocuments,
+      messageContainer,
     };
   },
 };
